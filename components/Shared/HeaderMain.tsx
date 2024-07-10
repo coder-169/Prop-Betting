@@ -6,7 +6,6 @@ import GetStarted from "../utility/Button";
 import { useSession } from "next-auth/react";
 import ButtonLoader from "../utility/ButtonLoader";
 import { FaAngleDown, FaUser } from "react-icons/fa";
-
 export default function HeaderMain() {
   const { data: session, status } = useSession();
   return (
@@ -52,7 +51,7 @@ export default function HeaderMain() {
                   width={16}
                   height={16}
                   className="rounded-full"
-                  alt={session?.user?.username}
+                  alt={"User"}
                 />
               ) : (
                 // <FaUser className="w-[16px] h-[22px]" />

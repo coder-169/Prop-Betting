@@ -33,7 +33,6 @@ export default function CreateAcount() {
   };
   const [passType, setPassType] = useState("password");
   const loginUser = async (e: any) => {
-
     e.preventDefault();
     if (creds.username === "" || creds.password === "")
       return toast.error("Credentials are required");
@@ -54,7 +53,7 @@ export default function CreateAcount() {
   };
   const signInWithGoogle = async () => {
     setLoading(true);
-    
+
     await signIn("google", {
       redirect: true,
       callbackUrl: "/",
@@ -83,6 +82,7 @@ export default function CreateAcount() {
               {" "}
               <div className="mb-4">
                 <Input
+                  type="email"
                   hint="Username/Email"
                   id="username"
                   value={creds.username}
@@ -91,6 +91,7 @@ export default function CreateAcount() {
               </div>{" "}
               <div className="mb-4">
                 <Input
+                  type="password"
                   hint="password"
                   id="password"
                   value={creds.password}
