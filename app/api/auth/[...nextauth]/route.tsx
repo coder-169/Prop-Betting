@@ -53,7 +53,7 @@ const handler = NextAuth({
   callbacks: {
     async session({ session }) {
       await dbConnect();
-
+      if(!session.user) return session;
       let existingUser = await User.findOne({
         $or: [{ email: session.user.email }, { name: session.user.name }],
       });
@@ -66,7 +66,7 @@ const handler = NextAuth({
     },
     async signIn({ user, profile, account }) {
       if (!profile) return true;
-      const { email_verified, given_name, family_name } = profile;
+      const { email_verified, given_name, family_name } = profile as { email_verified: boolean; given_name: string; family_name: string };
       if (!email_verified) throw new Error("Sorry, your email is not verified");
       const { name, email, image } = user;
       await dbConnect();
@@ -80,7 +80,7 @@ const handler = NextAuth({
           profileImage: image,
           isVerified: true,
           role: "user",
-          provider: account.provider,
+          provider: account?.provider,
         });
         const htmlContent = `
         <div style="max-width: 600px; margin: auto; width: 100%;">
