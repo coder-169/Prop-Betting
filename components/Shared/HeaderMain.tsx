@@ -1,11 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { IconAdjustmentsHorizontal, IconX } from "@tabler/icons-react";
-import Language from "./Language";
-import SideNav from "./SideNav";
-import NavItem from "./NavItem";
+import React from "react";
 import GetStarted from "../utility/Button";
 import { useSession } from "next-auth/react";
 import ButtonLoader from "../utility/ButtonLoader";
