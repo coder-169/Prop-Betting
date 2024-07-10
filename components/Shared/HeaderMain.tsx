@@ -9,7 +9,7 @@ import NavItem from "./NavItem";
 import GetStarted from "../utility/Button";
 import { useSession } from "next-auth/react";
 import ButtonLoader from "../utility/ButtonLoader";
-import { FaUser } from "react-icons/fa";
+import { FaAngleDown, FaUser } from "react-icons/fa";
 
 export default function HeaderMain() {
   const { data: session, status } = useSession();
@@ -48,28 +48,35 @@ export default function HeaderMain() {
         {status === "loading" ? (
           <ButtonLoader />
         ) : status === "authenticated" ? (
-          <button className="px-4 py-2 flex rounded-lg bg-[#0E0E47] hover:opacity-90 text-white">
-            {session?.user?.image ? (
-              <Image
-                src={session?.user?.image}
-                width={16}
-                height={16}
-                className="rounded-full"
-                alt={session?.user?.username}
-              />
-            ) : (
-              // <FaUser className="w-[16px] h-[22px]" />
-              <img
-                src="https://lh3.googleusercontent.com/a/ACg8ocJuV32ZNl5pCgarqCVMTdvuzlX_RwBYdewLgTEu0fOyvDmNm4ZK=s360-c-no"
-                width={16}
-                height={16}
-                className="rounded-full"
-                alt=""
-              />
-              // <FaUser className="w-[16px] h-[16] rounded-full" />
-            )}
-            {session?.user?.username}
-          </button>
+          <div className="relative">
+            <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-[#0E0E47] hover:opacity-90 text-white">
+              {session?.user?.image ? (
+                <Image
+                  src={session?.user?.image}
+                  width={16}
+                  height={16}
+                  className="rounded-full"
+                  alt={session?.user?.username}
+                />
+              ) : (
+                // <FaUser className="w-[16px] h-[22px]" />
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src="https://lh3.googleusercontent.com/a/ACg8ocJuV32ZNl5pCgarqCVMTdvuzlX_RwBYdewLgTEu0fOyvDmNm4ZK=s360-c-no"
+                  width={24}
+                  height={24}
+                  className="rounded-full"
+                  alt=""
+                />
+                // <FaUser className="w-[16px] h-[16] rounded-full" />
+              )}
+              {session?.user?.username}
+              <FaAngleDown />
+            </button>
+            <div className="absolute -bottom-8 rounded-lg right-0 w-40 bg-[#0E0E47] h-40">
+             <Link href={'/profile'} className="px-4 py-2 hover:bg-gray-800">Profile</Link>
+            </div>
+          </div>
         ) : (
           <GetStarted extras={`transition-all duration-200 hover:opacity-80`} />
         )}

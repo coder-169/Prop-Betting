@@ -5,6 +5,12 @@ import bcrypt from "bcrypt";
 import User from "@/app/models/User";
 import dbConnect from "@/app/utils/db";
 import { sendMail } from "@/app/utils/funcs";
+interface User {
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  username?: string | null; // Add this line
+}
 
 const handler = NextAuth({
   providers: [
@@ -58,10 +64,11 @@ const handler = NextAuth({
     async session({ session }) {
       await dbConnect();
       if (!session.user) return session;
+      const username = session.user.username;
       let existingUser = await User.findOne({
         $or: [
           { email: session.user.email },
-          { username: session.user.username },
+          { username: username},
         ],
       });
       if (existingUser) {
