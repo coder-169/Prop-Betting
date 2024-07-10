@@ -17,7 +17,7 @@ import ButtonLoader from "@/components/utility/ButtonLoader";
 export default function CreateAcount() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [loginLoading, setLoginLoading] = useState(true);
+  const [loginLoading, setLoginLoading] = useState(false);
   const [active, setActive] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -33,10 +33,11 @@ export default function CreateAcount() {
   };
   const [passType, setPassType] = useState("password");
   const loginUser = async (e: any) => {
+
     e.preventDefault();
     if (creds.username === "" || creds.password === "")
       return toast.error("Credentials are required");
-    setLoading(true);
+    setLoginLoading(true);
     await signIn("credentials", {
       ...creds,
       redirect: false,
@@ -49,10 +50,11 @@ export default function CreateAcount() {
         router.push("/profile");
       }
     });
-    setLoading(false);
+    setLoginLoading(false);
   };
   const signInWithGoogle = async () => {
     setLoading(true);
+    
     await signIn("google", {
       redirect: true,
       callbackUrl: "/",
@@ -103,11 +105,13 @@ export default function CreateAcount() {
                           </span>
                         </div> */}
               <button
-                className="cmn-btn flex items-center justify-center gap-2 px-5 py-4 mb-4 w-100 !rounded-full"
-                style={{ borderRadius: "50px" }}
+                disabled={loginLoading}
+                className={`disabled:opacity-80 cmn-btn gap-2 relative px-5 py-4 mb-4 w-100 !rounded-full`}
                 type="submit"
               >
-                {loginLoading && <ButtonLoader />}
+                {loginLoading && (
+                  <ButtonLoader extras={"absolute left-4 top-3"} />
+                )}
                 Sign In
               </button>
             </form>

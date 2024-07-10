@@ -23,6 +23,7 @@ const handler = NextAuth({
         },
       },
       async authorize(credentials) {
+        console.log(credentials);
         await dbConnect();
         if (!credentials) {
           throw new Error("Missing credentials");
@@ -33,6 +34,8 @@ const handler = NextAuth({
             { username: { $regex: credentials.username, $options: "i" } },
           ],
         });
+        console.log(user);
+
         if (!user) {
           throw new Error("Invalid credentials");
         }
@@ -40,22 +43,26 @@ const handler = NextAuth({
           credentials.password,
           user.password
         );
+        console.log(passMatch);
         if (!passMatch) throw new Error("Invalid credentials");
 
         return user;
       },
     }),
   ],
-  secret: process.env.SECRET,
+  secret: process.env.AUTH_SECRET,
   session: {
     strategy: "jwt",
   },
   callbacks: {
     async session({ session }) {
       await dbConnect();
-      if(!session.user) return session;
+      if (!session.user) return session;
       let existingUser = await User.findOne({
-        $or: [{ email: session.user.email }, { name: session.user.name }],
+        $or: [
+          { email: session.user.email },
+          { username: session.user.username },
+        ],
       });
       if (existingUser) {
         session.user = existingUser;
@@ -66,18 +73,22 @@ const handler = NextAuth({
     },
     async signIn({ user, profile, account }) {
       if (!profile) return true;
-      const { email_verified, given_name, family_name } = profile as { email_verified: boolean; given_name: string; family_name: string };
+      const { email_verified, given_name, family_name } = profile as {
+        email_verified: boolean;
+        given_name: string;
+        family_name: string;
+      };
       if (!email_verified) throw new Error("Sorry, your email is not verified");
       const { name, email, image } = user;
       await dbConnect();
-      const existingUser = await User.findOne({ $or: [{ email }, { name }] });
+      const existingUser = await User.findOne({
+        $or: [{ email }, { username: name }],
+      });
       if (!existingUser) {
         await User.create({
-          name,
+          username: name,
           email,
-          first_name: given_name,
-          last_name: family_name,
-          profileImage: image,
+          image,
           isVerified: true,
           role: "user",
           provider: account?.provider,

@@ -1,35 +1,32 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import dbConnect from "@/app/utils/db";
 import User from "@/app/models/User";
-import { generateCode, sendMail } from "../../../utils/funcs";
-// import { generateCode, sendMail } from "@/app/utils/funcs";
-export async function POST(req, res) {
+import dbConnect from "@/app/utils/db";
+import { generateCode, sendMail } from "@/app/utils/funcs";
+
+export async function POST(req: NextRequest, res: NextResponse) {
   try {
     await dbConnect();
     const body = await req.json();
+    const { email } = body;
+    if (!email)
+      return NextResponse.json(
+        { success: false, message: "Email is required" },
+        {
+          status: 400,
+        }
+      );
     const user = await User.findOne({
-      $or: [
-        { email: { $regex: body.email, $options: "i" } },
-        { name: { $regex: body.name, $options: "i" } },
-      ],
+      email: { $regex: body.email, $options: "i" },
     });
-    if (user)
-      return NextResponse.json({
-        message: "Try different Credentials",
-        success: false,
-      });
-    const { name, email, password, phone, first_name, last_name } = body;
-    const hash = await bcrypt.hash(password, 10);
+    if (!user)
+      return NextResponse.json(
+        { success: false, message: "User not found" },
+        {
+          status: 404,
+        }
+      );
 
-    const newUser = await User.create({
-      name,
-      first_name,
-      last_name,
-      email,
-      password: hash,
-      phone,
-    });
     const code = await generateCode();
     const hashedCode = await bcrypt.hash(code, 10);
     // const expireTime = new Date().getTime() + 1000;
@@ -60,19 +57,25 @@ Here is your verification code. Please verify your account within 10 minutes.   
         </div>
     </div>
     `;
-    const resp = await sendMail(email, "Successful Registration", htmlContent);
+    const resp = await sendMail(email, "Account Verification", htmlContent);
     if (!resp.success) {
-      return NextResponse.json({ message: resp.message, success: false });
+      throw new Error(resp.message);
     } else {
-      return NextResponse.json({
-        success: true,
-        user: newUser,
-        hashedCode,
-        expireTime,
-        message: "account registered successfully",
-      });
+      return NextResponse.json(
+        { success: true, message: "code resent", hashedCode, expireTime },
+        {
+          status: 200,
+        }
+      );
     }
   } catch (error) {
-    return NextResponse.json({ success: false, message: error.message });
+    return NextResponse.json(
+      { success: false, message: error.message },
+      {
+        status: 500,
+      }
+    );
   }
+
+  //   const user = await User.create({ email, user, password });
 }

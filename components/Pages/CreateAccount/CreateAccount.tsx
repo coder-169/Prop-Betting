@@ -17,6 +17,7 @@ import ButtonLoader from "@/components/utility/ButtonLoader";
 export default function CreateAcount() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [signUploading, setSignUpLoading] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
   const [active, setActive] = useState(false);
   const router = useRouter();
@@ -59,6 +60,7 @@ export default function CreateAcount() {
   };
   const handleSignUp = async (e: any) => {
     e.preventDefault();
+    console.log("called");
     if (
       creds.email === "" ||
       creds.username === "" ||
@@ -68,7 +70,7 @@ export default function CreateAcount() {
       return toast.error("Please fill all the fields");
     if (creds.password !== creds.confirmPassword)
       return toast.error("Both passwords should match");
-    setLoading(true);
+    setSignUpLoading(true);
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -76,9 +78,21 @@ export default function CreateAcount() {
       });
       const data = await res.json();
       if (data.success) {
-        localStorage.setItem("win-signup-email", creds.email);
-        localStorage.setItem("win-signup-code", data.hashedCode);
-        localStorage.setItem("win-signup-expireTime", data.expireTime);
+        localStorage.setItem("prop-betting-signup-email", creds.email);
+        localStorage.setItem("prop-betting-signup-code", data.hashedCode);
+        localStorage.setItem("prop-betting-signup-expireTime", data.expireTime);
+        await signIn("credentials", {
+          ...creds,
+          redirect: false,
+        }).then((callback) => {
+          if (callback?.error) {
+            toast.error(callback.error);
+          }
+          if (callback?.ok && !callback.error) {
+            toast.success("Log In Successful! Redirecting you");
+          }
+        });
+
         toast.success(data.message + " Verify your account!");
         router.push("/auth/verify");
       } else {
@@ -87,7 +101,7 @@ export default function CreateAcount() {
     } catch (error: any) {
       toast.error(error.message);
     }
-    setLoading(false);
+    setSignUpLoading(false);
   };
   return (
     <section className="h-screen flex items-center">
@@ -111,6 +125,7 @@ export default function CreateAcount() {
               {" "}
               <div className="mb-4">
                 <Input
+                  type="text"
                   hint="Username"
                   id="username"
                   value={creds.username}
@@ -119,6 +134,7 @@ export default function CreateAcount() {
               </div>{" "}
               <div className="mb-4">
                 <Input
+                  type="email"
                   hint="Email"
                   id="email"
                   value={creds.email}
@@ -127,6 +143,7 @@ export default function CreateAcount() {
               </div>{" "}
               <div className="mb-4">
                 <Input
+                  type="text"
                   hint="Referral Code"
                   id="referralCode"
                   value={creds.referralCode}
@@ -135,6 +152,7 @@ export default function CreateAcount() {
               </div>
               <div className="mb-4">
                 <Input
+                  type="password"
                   hint="password"
                   id="password"
                   value={creds.password}
@@ -143,6 +161,7 @@ export default function CreateAcount() {
               </div>
               <div className="mb-4">
                 <Input
+                  type="password"
                   hint="Confirm Password"
                   id="confirmPassword"
                   value={creds.confirmPassword}
@@ -157,11 +176,14 @@ export default function CreateAcount() {
                           </span>
                         </div> */}
               <button
-                className="cmn-btn px-5 py-4 mb-4 w-100 !rounded-full"
-                style={{ borderRadius: "50px" }}
+                disabled={signUploading}
+                className={`disabled:opacity-80 cmn-btn gap-2 relative px-5 py-4 mb-4 w-100 !rounded-full`}
                 type="submit"
               >
-                Sign Up Now
+                {signUploading && (
+                  <ButtonLoader extras={"absolute left-4 top-3"} />
+                )}
+                Sign Up
               </button>
             </form>
           </div>

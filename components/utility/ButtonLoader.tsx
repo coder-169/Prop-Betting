@@ -1,7 +1,7 @@
 import React from "react";
 
-const ButtonLoader = () => {
-  return <span className="btn-loader"></span>;
+const ButtonLoader = ({ extras }: { extras?: string }) => {
+  return <span className={`btn-loader ${extras}`}></span>;
 };
 
 export default ButtonLoader;

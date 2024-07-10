@@ -1,19 +1,11 @@
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
-  name: {
+  username: {
     type: String,
     required: true,
   },
   email: {
-    type: String,
-    required: true,
-  },
-  first_name: {
-    type: String,
-    required: true,
-  },
-  last_name: {
     type: String,
     required: true,
   },
@@ -33,9 +25,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "signup",
   },
-  subscribed: { type: Boolean },
   isVerified: { type: Boolean, default: false },
-  planName: { type: String },
   joined: {
     type: Date,
     default: Date.now,
@@ -44,26 +34,8 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  subId: {
+  image: {
     type: String,
-    default: null,
-  },
-  profileImage: {
-    type: String,
-    default: "",
-  },
-  cusId: {
-    type: String,
-    default: null,
-  },
-  address: {
-    type: Object,
-  },
-  subscribedOn: {
-    type: Date,
-  },
-  appointmentTime: {
-    type: Date,
   },
 });
 
