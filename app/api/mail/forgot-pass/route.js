@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import dbConnect from "@/app/utils/db";
-import User from "@/app/model/User";
+import User from "@/app/models/User";
 import { generateCode, sendMail } from "@/app/utils/funcs";
 export async function POST(req, res) {
   try {

@@ -1,24 +1,21 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 import User from "@/app/models/User";
+import dbConnect from "@/app/utils/db";
+import { sendMail } from "@/app/utils/funcs";
 
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID|| '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      clientId: process.env.AUTH_GOOGLE_ID || "",
+      clientSecret: process.env.AUTH_GOOGLE_SECRET || "",
     }),
     CredentialProvider({
       name: "credentials",
       credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "johnboe@gmail.com",
-        },
-        name: { label: "Username", type: "text", placeholder: "JohnBoe" },
+        username: { label: "Username", type: "text", placeholder: "JohnBoe" },
         password: {
           label: "Password",
           type: "password",
@@ -27,13 +24,13 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         await dbConnect();
-        if (!credentials.name || !credentials.password) {
+        if (!credentials) {
           throw new Error("Missing credentials");
         }
         const user = await User.findOne({
           $or: [
-            { email: { $regex: credentials.name, $options: "i" } },
-            { name: { $regex: credentials.name, $options: "i" } },
+            { email: { $regex: credentials.username, $options: "i" } },
+            { username: { $regex: credentials.username, $options: "i" } },
           ],
         });
         if (!user) {
@@ -44,7 +41,7 @@ const handler = NextAuth({
           user.password
         );
         if (!passMatch) throw new Error("Invalid credentials");
-        
+
         return user;
       },
     }),

@@ -1,4 +1,4 @@
-import User from "@/app/model/User";
+import User from "@/app/models/User";
 import dbConnect from "@/app/utils/db";
 import { sendMail } from "@/app/utils/funcs";
 import { NextResponse } from "next/server";

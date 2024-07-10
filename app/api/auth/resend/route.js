@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import User from "@/app/model/User";
+import User from "@/app/models/User";
 import dbConnect from "@/app/utils/db";
 import { generateCode, sendMail } from "@/app/utils/funcs";
 

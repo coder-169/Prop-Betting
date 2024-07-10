@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import dbConnect from "@/app/utils/db";
-import User from "@/app/model/User";
-import { generateCode, sendMail } from "@/app/utils/funcs";
+import User from "@/app/models/User";
+import { generateCode, sendMail } from "../../../utils/funcs";
+// import { generateCode, sendMail } from "@/app/utils/funcs";
 export async function POST(req, res) {
   try {
     await dbConnect();
@@ -59,11 +60,7 @@ Here is your verification code. Please verify your account within 10 minutes.   
         </div>
     </div>
     `;
-    const resp = await sendMail(
-      email,
-      "Successful Registration",
-      htmlContent
-    );
+    const resp = await sendMail(email, "Successful Registration", htmlContent);
     if (!resp.success) {
       return NextResponse.json({ message: resp.message, success: false });
     } else {

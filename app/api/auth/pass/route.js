@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import User from "@/app/model/User";
+import User from "@/app/models/User";
+
 export async function POST(req, res) {
   try {
     const body = await req.json();
