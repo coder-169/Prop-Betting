@@ -64,11 +64,9 @@ const handler = NextAuth({
     async session({ session }) {
       await dbConnect();
       if (!session.user) return session;
-      const username = session.user.username;
       let existingUser = await User.findOne({
         $or: [
           { email: session.user.email },
-          { username: username},
         ],
       });
       if (existingUser) {
@@ -80,7 +78,7 @@ const handler = NextAuth({
     },
     async signIn({ user, profile, account }) {
       if (!profile) return true;
-      const { email_verified, given_name, family_name } = profile as {
+      const { email_verified, } = profile as {
         email_verified: boolean;
         given_name: string;
         family_name: string;

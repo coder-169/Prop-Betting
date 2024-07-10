@@ -73,8 +73,25 @@ export default function HeaderMain() {
               {session?.user?.username}
               <FaAngleDown />
             </button>
-            <div className="absolute -bottom-8 rounded-lg right-0 w-40 bg-[#0E0E47] h-40">
-             <Link href={'/profile'} className="px-4 py-2 hover:bg-gray-800">Profile</Link>
+            <div className="absolute top-12 rounded-lg right-0 w-40 bg-[#0E0E47] h-40">
+              <ul className="flex">
+                <li>
+                  <Link
+                    href={"/profile"}
+                    className="px-4 py-2 hover:bg-gray-800"
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={"/profile"}
+                    className="px-4 py-2 hover:bg-gray-800"
+                  >
+                    Profile
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
         ) : (
