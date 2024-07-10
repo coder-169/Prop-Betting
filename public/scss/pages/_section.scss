@@ -1,0 +1,415 @@
+// Promotion page starts
+.Promotions{
+  &__main {
+    margin: 137px 20px 0 303px;
+
+    @include maxQuery(1399) {
+        // padding-top: 60px;
+    }
+
+    @include maxQuery(991) {
+      margin: 0 0 0 20px;
+        padding-top: 120px;
+    }
+}
+  &__card{
+    transition: 0.5s linear;
+    height: 100%;
+    &:hover{
+      background-color: rgba(var(--n11), 1);
+    }
+  }
+}
+// Promotion page ends
+.extrastyle{
+  color: white !important;
+}
+// Deposit Dashboard Starts
+.pay_method {
+  &__paymethod {
+    &-items {
+      @include maxQuery(1599) {
+        flex-wrap: wrap;
+      }
+
+      @include maxQuery(1399) {
+        flex-wrap: nowrap;
+      }
+
+      @include maxQuery(1299) {
+        flex-wrap: wrap;
+      }
+    }
+
+    &-item {
+      border: 1px solid rgb(var(--n2));
+      transition: 0.5s linear;
+      width: 100%;
+      height: 100%;
+
+      @include maxQuery(1599) {
+        width: fit-content;
+      }
+
+      @include maxQuery(1399) {
+        width: 100%;
+      }
+
+      @include maxQuery(1299) {
+        width: fit-content;
+      }
+
+      &:hover {
+        border: 1px solid rgb(var(--g1));
+      }
+    }
+
+    .active {
+      border: 1px solid rgb(var(--g1));
+    }
+  }
+
+  &__amount {
+    border-radius: 8px;
+    border: 1px solid rgb(var(--n2));
+  }
+
+  &__scrol {
+    @include maxQuery(1399) {
+      overflow-x: scroll;
+
+      &::-webkit-scrollbar {
+        height: 0;
+      }
+    }
+  }
+
+  &__scrollbar {
+    @include maxQuery(1399) {
+      width: fit-content;
+    }
+  }
+
+  &__formarea {
+    form {
+      i {
+        color: rgba(var(--n5), 1);
+        cursor: pointer;
+      }
+
+      input {
+        &::placeholder {
+          color: rgba(var(--n5), 1);
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  &__table {
+    &-scrollbar{
+      &::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #cfa80e;
+        border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: rgba(255, 255, 255, 0.4);
+    }
+    }
+    table {
+      border-radius: 10px;
+      tr {
+        th {
+          background-color: rgb(var(--n11));
+          &:first-child{
+            border-radius: 10px 0 0 0;
+          }
+          &:last-child{
+            border-radius:0 10px 0 0;
+          }
+        }
+
+        td,
+        th {
+          padding: 20px 90px;
+          box-shadow: 0px 1px 0px 0px #65739C, 0px 1px 0px 0px #212534;
+        }
+
+        td{
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  &__tabletwo {
+    &-scrollbar{
+      &::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #cfa80e;
+        border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: rgba(255, 255, 255, 0.4);
+    }
+    }
+    table {
+      border-radius: 10px;
+      tr {
+        th {
+          background-color: rgb(var(--n11));
+          &:first-child{
+            border-radius: 10px 0 0 0;
+          }
+          &:last-child{
+            border-radius:0 10px 0 0;
+          }
+        }
+
+        td,
+        th {
+          padding: 20px 40px;
+          box-shadow: 0px 1px 0px 0px #65739C, 0px 1px 0px 0px #212534;
+        }
+        td{
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  &__Notiitem{
+    border-bottom: 1px solid #030332;
+    &-switcher{
+      .switch {
+        /* switch */
+        --switch-width: 46px;
+        --switch-height: 24px;
+        --switch-bg: rgb(131, 131, 131);
+        --switch-checked-bg: rgb(0, 218, 80);
+        --switch-offset: calc((var(--switch-height) - var(--circle-diameter)) / 2);
+        --switch-transition: all .2s cubic-bezier(0.27, 0.2, 0.25, 1.51);
+        /* circle */
+        --circle-diameter: 18px;
+        --circle-bg: #fff;
+        --circle-shadow: 1px 1px 2px rgba(146, 146, 146, 0.45);
+        --circle-checked-shadow: -1px 1px 2px rgba(163, 163, 163, 0.45);
+        --circle-transition: var(--switch-transition);
+        /* icon */
+        --icon-transition: all .2s cubic-bezier(0.27, 0.2, 0.25, 1.51);
+        --icon-cross-color: var(--switch-bg);
+        --icon-cross-size: 6px;
+        --icon-checkmark-color: var(--switch-checked-bg);
+        --icon-checkmark-size: 10px;
+        /* effect line */
+        --effect-width: calc(var(--circle-diameter) / 2);
+        --effect-height: calc(var(--effect-width) / 2 - 1px);
+        --effect-bg: var(--circle-bg);
+        --effect-border-radius: 1px;
+        --effect-transition: all .2s ease-in-out;
+      }
+      
+      .switch input {
+        display: none;
+      }
+      
+      .switch {
+        display: inline-block;
+      }
+      
+      .switch svg {
+        -webkit-transition: var(--icon-transition);
+        -o-transition: var(--icon-transition);
+        transition: var(--icon-transition);
+        position: absolute;
+        height: auto;
+      }
+      
+      .switch .checkmark {
+        width: var(--icon-checkmark-size);
+        color: var(--icon-checkmark-color);
+        -webkit-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+      }
+      
+      .switch .cross {
+        width: var(--icon-cross-size);
+        color: var(--icon-cross-color);
+      }
+      
+      .slider {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        width: var(--switch-width);
+        height: var(--switch-height);
+        background: var(--switch-bg);
+        border-radius: 999px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        position: relative;
+        -webkit-transition: var(--switch-transition);
+        -o-transition: var(--switch-transition);
+        transition: var(--switch-transition);
+        cursor: pointer;
+      }
+      
+      .circle {
+        width: var(--circle-diameter);
+        height: var(--circle-diameter);
+        background: var(--circle-bg);
+        border-radius: inherit;
+        -webkit-box-shadow: var(--circle-shadow);
+        box-shadow: var(--circle-shadow);
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-transition: var(--circle-transition);
+        -o-transition: var(--circle-transition);
+        transition: var(--circle-transition);
+        z-index: 1;
+        position: absolute;
+        left: var(--switch-offset);
+      }
+      
+      .slider::before {
+        content: "";
+        position: absolute;
+        width: var(--effect-width);
+        height: var(--effect-height);
+        left: calc(var(--switch-offset) + (var(--effect-width) / 2));
+        background: var(--effect-bg);
+        border-radius: var(--effect-border-radius);
+        -webkit-transition: var(--effect-transition);
+        -o-transition: var(--effect-transition);
+        transition: var(--effect-transition);
+      }
+      
+      /* actions */
+      
+      .switch input:checked+.slider {
+        background: var(--switch-checked-bg);
+      }
+      
+      .switch input:checked+.slider .checkmark {
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+      }
+      
+      .switch input:checked+.slider .cross {
+        -webkit-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+      }
+      
+      .switch input:checked+.slider::before {
+        left: calc(100% - var(--effect-width) - (var(--effect-width) / 2) - var(--switch-offset));
+      }
+      
+      .switch input:checked+.slider .circle {
+        left: calc(100% - var(--circle-diameter) - var(--switch-offset));
+        -webkit-box-shadow: var(--circle-checked-shadow);
+        box-shadow: var(--circle-checked-shadow);
+      }
+    }
+  }
+  .nice-select{
+    background-color: rgb(var(--n11));
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    .current{
+      font-size: 14px;
+      color: #BDC2D1;
+    }
+  }
+  .nice-select.open .list{
+    background-color: rgb(var(--n11));
+  }
+  .nice-select ul{
+    border: none;
+    padding: 16px;
+    background-color: rgb(var(--n11));
+    li{
+      font-size: 14px;
+      color: #BDC2D1;
+    }
+  }
+  .nice-select::after{
+    border-color: #A098AE;
+  }
+  .tabcontents {
+    position: relative;
+  }
+
+  .tabitem {
+    transform: translateY(100px);
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    width: 100%;
+    opacity: 0;
+    transition: 0.5s all;
+  }
+
+  .nav-links.active {
+    background-color: rgba(var(--n11), 1);
+  }
+
+  .nav-links {
+    transition: 0.5s linear;
+    width: 100%;
+
+    @include maxQuery(1399) {
+      width: fit-content;
+    }
+
+    &:hover {
+      background-color: rgba(var(--n11), 1);
+    }
+  }
+
+  .tabitem.active {
+    position: initial;
+    z-index: 1;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+// Deposit Dashboard Ends
+// Create account page and Login page starts
+.login_section{
+  &__social{
+    a{
+      &:hover{
+        background-color: rgb(var(--g1));
+      }
+    }
+  }
+  &__form{
+    input{
+      &::placeholder{
+        color: rgb(var(--n5));
+      }
+    }
+  }
+}
+// Create account page and Login page starts

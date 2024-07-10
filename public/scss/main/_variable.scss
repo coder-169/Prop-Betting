@@ -1,0 +1,29 @@
+// default font family
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.36.0/tabler-icons.min.css');
+
+// default root
+:root {
+	--body-font: 'Inter', sans-serif;
+	--transition: all 0.5s ease-in-out;
+	--transition2: all 0.3s ease-in-out;
+	--animate-duration: 1s;
+	--animate-delay: 0.5s;
+	/* Color styles */
+	--p1: 0, 6, 22;
+	--p2: 8, 15, 37;
+	--p3: #030332;
+	--n1: 10, 16, 35;
+	--n2: 44, 54, 85;
+	--n3: 132, 136, 148;
+	--n4: 149, 154, 170;
+	--n5: 189, 194, 209;
+	--n6: 33, 44, 77;
+	--n7: 248, 248, 248;
+	--n8: 255, 255, 255;
+	--n9: 245, 250, 255;
+	--n10: 238, 241, 255;
+	--n11: 15, 27, 66;
+	--g1: 53, 195, 30;
+	--r1: 255, 72, 0;
+}
