@@ -12,11 +12,12 @@ import Input from "@/components/Input";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import ButtonLoader from "@/components/utility/ButtonLoader";
 
 export default function CreateAcount() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isSignIn, setIsSignIn] = useState(true);
+  const [loginLoading, setLoginLoading] = useState(true);
   const [active, setActive] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -51,44 +52,11 @@ export default function CreateAcount() {
     setLoading(false);
   };
   const signInWithGoogle = async () => {
+    setLoading(true);
     await signIn("google", {
       redirect: true,
-      callbackUrl: "/profile",
+      callbackUrl: "/",
     });
-  };
-  const handleSignUp = async (e: any) => {
-    e.preventDefault();
-    if (
-      creds.email === "" ||
-      creds.first_name === "" ||
-      creds.last_name === "" ||
-      creds.name === "" ||
-      creds.password === "" ||
-      creds.confirmPassword === ""
-    )
-      return toast.error("Please fill all the fields");
-    if (creds.password !== creds.confirmPassword)
-      return toast.error("Both passwords should match");
-    setLoading(true);
-    try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        body: JSON.stringify(creds),
-      });
-      const data = await res.json();
-      if (data.success) {
-        localStorage.setItem("win-signup-email", creds.email);
-        localStorage.setItem("win-signup-code", data.hashedCode);
-        localStorage.setItem("win-signup-expireTime", data.expireTime);
-        toast.success(data.message + " Verify your account!");
-        router.push("/auth/verify");
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-    setLoading(false);
   };
   return (
     <section className="h-screen flex items-center">
@@ -109,7 +77,7 @@ export default function CreateAcount() {
           </svg>
 
           <div className="login_section__form">
-            <form className="w-[55%] mx-auto" onSubmit={handleSignUp}>
+            <form className="w-[55%] mx-auto" onSubmit={loginUser}>
               {" "}
               <div className="mb-4">
                 <Input
@@ -119,8 +87,6 @@ export default function CreateAcount() {
                   handler={handleChange}
                 />
               </div>{" "}
-           
-            
               <div className="mb-4">
                 <Input
                   hint="password"
@@ -129,7 +95,6 @@ export default function CreateAcount() {
                   handler={handleChange}
                 />
               </div>
-              
               {/* <div className="d-flex align-items-center flex-wrap flex-sm-nowrap gap-2 mb-6">
                           <input type="checkbox" />
                           <span>
@@ -138,24 +103,29 @@ export default function CreateAcount() {
                           </span>
                         </div> */}
               <button
-                className="cmn-btn px-5 py-4 mb-4 w-100 !rounded-full"
+                className="cmn-btn flex items-center justify-center gap-2 px-5 py-4 mb-4 w-100 !rounded-full"
                 style={{ borderRadius: "50px" }}
                 type="submit"
               >
+                {loginLoading && <ButtonLoader />}
                 Sign In
               </button>
             </form>
           </div>
           <div className="login_section__socialmedia text-center mb-2">
             <p className="mb-3">Or</p>
-            <button onClick={() => signIn("google")} className="">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/svgs/login.svg"
-                className="hover:invert-[10%]"
-                alt=""
-              />
-            </button>
+            {loading ? (
+              <ButtonLoader />
+            ) : (
+              <button onClick={signInWithGoogle} className="">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/svgs/login.svg"
+                  className="hover:invert-[10%]"
+                  alt=""
+                />
+              </button>
+            )}
           </div>
           <span className="d-center gap-1">
             Don&apos; have an account?{" "}

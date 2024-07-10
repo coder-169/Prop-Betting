@@ -12,6 +12,7 @@ import Input from "@/components/Input";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import ButtonLoader from "@/components/utility/ButtonLoader";
 
 export default function CreateAcount() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -60,9 +61,7 @@ export default function CreateAcount() {
     e.preventDefault();
     if (
       creds.email === "" ||
-      creds.first_name === "" ||
-      creds.last_name === "" ||
-      creds.name === "" ||
+      creds.username === "" ||
       creds.password === "" ||
       creds.confirmPassword === ""
     )
@@ -168,14 +167,24 @@ export default function CreateAcount() {
           </div>
           <div className="login_section__socialmedia text-center mb-2">
             <p className="mb-3">Or</p>
-            <button onClick={() => signIn("google")} className="">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/svgs/google.svg"
-                className="hover:invert-[10%]"
-                alt=""
-              />
-            </button>
+            {loading ? (
+              <ButtonLoader />
+            ) : (
+              <button
+                onClick={() => {
+                  signIn("google");
+                  setLoading(true);
+                }}
+                className=""
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/svgs/google.svg"
+                  className="hover:invert-[10%]"
+                  alt=""
+                />
+              </button>
+            )}
           </div>
           <span className="d-center gap-1">
             Already a member?{" "}
